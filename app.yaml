@@ -4,7 +4,7 @@ threadsafe: true
 
 handlers:
 - url: /
-  script: home.app
+  script: Scripts/home.app
 - url: /
   script: Scripts/loadcanvas.app
 - url: /Css
