@@ -1,6 +1,7 @@
-runtime: python27
+application: Maththing
+version: 1
+runtime: python
 api_version: 1
-threadsafe: true
 
 handlers:
 - url: /.*
