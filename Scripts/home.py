@@ -110,7 +110,7 @@ class MainPage(webapp2.RequestHandler):
         print "running"
         #self.response.headers['Content-Type'] = 'text/plain'
         #self.response.write('Hello, World!')
-        page = codecs.open("index.html", 'r', 'utf-8')
+        page = codecs.open("Html/index.html", 'r', 'utf-8')
         self.response.write(page.read())
         
     def hello(self):
