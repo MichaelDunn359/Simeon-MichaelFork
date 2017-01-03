@@ -3,8 +3,8 @@ api_version: 1
 threadsafe: true
 
 handlers:
-- url: /Scripts
-  script: home.app
+- url: /
+  script: Scripts/home.app
 - url: /Scripts
   script: loadcanvas.app
 - url: /Css
