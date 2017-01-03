@@ -6,6 +6,6 @@ handlers:
 - url: /
   script: home.app
 - url: /
-  script: loadcanvas.app
-- url: /styles
-  static_dir: styles
+  script: Scripts/loadcanvas.app
+- url: /Css
+  static_dir: Css
