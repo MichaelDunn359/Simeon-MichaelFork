@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Mathboard</title>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+  <script src="fabric.js-1.6.6/dist/fabric.min.js"></script>
+  <script src="bootstrap/js/bootstrap.min.js"></script>
+  <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="styles/canvas.css" rel="stylesheet">
+</head>
+
+<body>
+  <!--Start of navigation bar-->
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" onclick="toggle()" id="mathboard">Mathboard</a>
+    </div>
+    <div class="collapse navbar-collapse" id="navbar">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">Page 1</a></li>
+        <li><a href="#">Page 2</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a><span class="	glyphicon glyphicon-pencil"></span> <span class="drawinginfo">On</span></a></li>
+        <li><a>Width: <span class="info">10</span></a></li>
+        <li><a>Colour: <span class="colourinfo">#000000</span></a></li>
+        <li><a><span class="glyphicon glyphicon-user"></span> {Room}</a></li>
+        <li><a href="/"><span class="glyphicon glyphicon-log-out"></span> Leave</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+</nav>
+<!--End of navigation bar-->
+
+<!-- sidebar -->
+<div id="sidebar" class="toggle">
+  <ul class="side">  
+    <li><b>Toggle:</b></li>
+    <li><input type="button" class="btn btn-info toggledraw" onclick="turnoffdrawing()" id="toggledraw" value="Draw OFF">
+        <input type="button" class="btn btn-info" onclick="background()" id="background" value="Background"></li>
+
+    <li><b>Canvas:</b></li>
+    <li><button id="save-canvas" class="btn btn-info" onclick="savedrawing()">Save</button>
+        <button id="clear-canvas" class="btn btn-info" onclick="cleardrawing()">Clear</button></li>
+
+    <li><b>Object:</b></li>
+    <li><button id="delete-object" class="btn btn-info" onclick="deleteobject()">Delete</button></li>
+
+    <li><b>Favourites:</b></li>
+    <li><button id="save-canvas" class="btn btn-info" onclick="savefavourites()">Save</button>
+        <button id="load-canvas" class="btn btn-info" onclick="loadfavourites()">Load</button>
+        <button id="clear-canvas" class="btn btn-info" onclick="clearfavourites()">Clear</button></li>
+
+    <li><b>Pen:</b></li>
+
+    <li><input type="range" value="5" min="1" max="80" id="drawing-line-width" style="width:190px; height: 30px; writing-mode: lr-bt; /* IE */
+          -webkit-appearance: slider-horizontal; /* WebKit */" onchange="changewidth()"></li>
+
+    <li><input style="width: 43px !important" height="30px" type="color" value="#000000" id="drawing-color" onchange="changecolor()">
+      <button style="width: 50px" id="drawing-line-color-save" class="btn btn-info" onclick="savecolor()">Save </button></li>
+
+    <li><b>Common:</b></li>
+
+    <li id="common">
+      <div class="coloursquare" style="background-color: black;"></div>
+      <div class="coloursquare" style="background-color: white;"></div>
+      <div class="coloursquare" style="background-color: blue;"></div>
+      <div class="coloursquare" style="background-color: green;"></div>
+      <div class="coloursquare" style="background-color: red;"></div>
+      <div class="coloursquare" style="background-color: yellow;"></div>
+      <div class="coloursquare" style="background-color: purple;"></div>
+      <div class="coloursquare" style="background-color: cyan;"></div>
+      <div class="coloursquare" style="background-color: grey;"></div>
+      <div class="coloursquare" style="background-color: orange;"></div>
+    </li>
+
+    <li><b>Favourites:</b></li>
+    <li class="nosaves">No Favourites</li>
+    <li id="saves"></li>
+  </ul>
+</div>
+<!--End of sidebar-->
+
+<canvas id="c"></canvas>
+
+<script>
+      var canvas = new fabric.Canvas('c', { backgroundColor: "white" });
+      canvas.isDrawingMode = true;
+      canvas.backgroundColor = "white";
+      canvas.freeDrawingBrush.color = "rgb(0,0,0)";
+
+      window.addEventListener('resize', resizeCanvas, false);
+
+      function resizeCanvas() {
+        canvas.setHeight(window.innerHeight - 52);
+        canvas.setWidth(window.innerWidth);
+        canvas.renderAll();
+      }
+
+      function background() {
+
+        if (canvas.backgroundColor === "white") {
+          canvas.backgroundColor = "black";  
+        } else {
+          canvas.backgroundColor = "white";
+        }
+        
+        canvas.renderAll();
+      }
+
+      // resize on init
+      resizeCanvas();
+
+      function turnoffdrawing() {
+        if (canvas.isDrawingMode) {
+          changetext = "Draw ON";
+          $(".drawinginfo").html("Off");
+        } else {
+          changetext = "Draw OFF";
+          $(".drawinginfo").html("On");
+        }
+        $(".toggledraw").attr("value", changetext);
+        canvas.isDrawingMode = !canvas.isDrawingMode;
+      }
+      function cleardrawing() {
+        canvas.clear();
+        canvas.setBackgroundColor('white', canvas.renderAll.bind(canvas));
+
+      }
+      function changewidth() {
+        canvas.freeDrawingBrush.width = $("#drawing-line-width").val();
+        $(".info").html(canvas.freeDrawingBrush.width);
+      }
+      function changecolor() {
+        canvas.freeDrawingBrush.color = $("#drawing-color").val();
+        $(".colourinfo").html(canvas.freeDrawingBrush.color);
+      }
+      function savecolor() {
+        color = $("#drawing-color").val();
+        square = "<div class='coloursquare' style='background-color: ".concat(color).concat(";'></div> ");
+        if ($("#saves").children().size() == 10) {
+          $("#saves").children().last().remove();
+          $("#saves").prepend(square);
+        } else {
+          $(".nosaves").hide();
+          $("#saves").prepend(square);
+        }
+      }
+      function savedrawing() {
+        localStorage.setItem("test2", JSON.stringify(canvas))
+      }
+      function savefavourites() {
+        for (i = 10; i < 20; i++) {
+          if (document.getElementsByClassName("coloursquare")[i] !== undefined) {
+            thing = "favourite".concat(i).concat('=').concat(document.getElementsByClassName("coloursquare")[i].style.backgroundColor);
+            document.cookie = thing;
+          } else {
+            thing = "favourite".concat(i).concat('=').concat("none");
+            document.cookie = thing;
+          }
+        }
+      }
+      function loadfavourites() {
+        $("#saves").children().remove();
+        for (i = 10; i < 20; i++) {
+          favourite = "favourite".concat([i]);
+          color = getCookie(favourite);
+          if (color == "none" || color == "") {
+
+          } else {
+            square = "<div class='coloursquare' style='background-color: ".concat(color).concat(";'></div> ");
+            $("#saves").prepend(square);
+          }
+        }
+        if ($("#saves").children().size() > 0) {
+          $(".nosaves").hide();
+        } else {
+          $(".nosaves").show();
+        }
+      }
+      function clearfavourites() {
+        var cookies = document.cookie.split("; ");
+        for (var c = 0; c < cookies.length; c++) {
+          var d = window.location.hostname.split(".");
+          while (d.length > 0) {
+            var cookieBase = encodeURIComponent(cookies[c].split(";")[0].split("=")[0]) + '=; expires=Thu, 01-Jan-1970 00:00:01 GMT; domain=' + d.join('.') + ' ;path=';
+            var p = location.pathname.split('/');
+            document.cookie = cookieBase + '/';
+            while (p.length > 0) {
+              document.cookie = cookieBase + p.join('/');
+              p.pop();
+            };
+            d.shift();
+          }
+        }
+      }
+      function deleteobject() {
+        var activeObject = canvas.getActiveObject(),
+          activeGroup = canvas.getActiveGroup();
+        if (activeObject) {
+          if (confirm('Are you sure?')) {
+            canvas.remove(activeObject);
+          }
+        } else if (activeGroup) {
+          if (confirm('Are you sure?')) {
+            var objectsInGroup = activeGroup.getObjects();
+            canvas.discardActiveGroup();
+            objectsInGroup.forEach(function (object) {
+              canvas.remove(object);
+            });
+          }
+        }
+      }
+      function WAT() {
+        var search = encodeURIComponent($("#WATI").val());
+        console.log(search);
+        $.ajax({
+          url: "/wolframAPItoolwithlibs/wolf.py",
+          type: "POST",
+          data: "equation="+search,
+          success: function(response) {
+            var temp = response;
+            var count = (temp.match(/http:/g) || []).length;
+            for (var i = 1; i < count + 1; i++) {
+              var img = "http://".concat(response.split("http://")[i]);
+              fabric.Image.fromURL(img, function (oImg) {
+                var l = Math.random() * (500 - 0) + 0;
+                var t = Math.random() * (500 - 0) + 0;
+                oImg.scale(1.7);
+                oImg.set({ 'left': l });
+                oImg.set({ 'top': t });
+                canvas.add(oImg);
+              });
+            }
+          }
+        });
+      }
+
+      savedrawing();
+      /*window.setInterval(function(){
+        savedrawing();
+      }, 100);*/
+
+      $(document).ready(function () {
+        changewidth();
+        changecolor();
+        $("#common, #saves").on('click', ".coloursquare", function () {
+          canvas.freeDrawingBrush.color = $(this).css('background-color');
+          $("#drawing-color").val(rgb2hex(canvas.freeDrawingBrush.color));
+          $(".colourinfo").html(canvas.freeDrawingBrush.color);
+        })
+      })
+      var hexDigits = new Array
+        ("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f");
+      function rgb2hex(rgb) {
+        rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+        return "#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
+      }
+
+      function hex(x) {
+        return isNaN(x) ? "00" : hexDigits[(x - x % 16) / 16] + hexDigits[x % 16];
+      }
+      function getCookie(cname) {
+        var name = cname + "=";
+        var ca = document.cookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+          var c = ca[i];
+          while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+          }
+          if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+          }
+        }
+        return "";
+      }
+
+    function toggle() {
+        $("#sidebar").toggleClass("toggle");
+    };
+
+    function hideSearch() {
+        $("#waSearch").toggleClass("toggle");
+    }
+    
+</script>
+
+<!-- Wolfram Alpha bar-->
+<div>
+  <img id="waIcon" src="assets/icons/wolfram_red.png" onclick="hideSearch()">
+  <div id="waSearch" class="input-group toggle">
+    <input type="text" class="form-control" id="WATI" placeholder="Solve using WolframAlpha">
+    <span class="input-group-addon" onclick="WAT()">
+      <i class="glyphicon glyphicon-search"></i>
+    </span>
+  </div>
+</div>
+
+</body>
+</html>

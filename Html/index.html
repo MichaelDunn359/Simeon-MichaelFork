@@ -1,0 +1,69 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Mathboard</title>
+
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="styles/cover.css" rel="stylesheet">
+  </head>
+
+  <body>
+
+    <div class="site-wrapper backgroundcover">
+      <div class="site-wrapper-inner">
+        <div class="cover-container">
+          <div class="masthead clearfix">
+            <div class="inner">
+              <h3 class="masthead-brand"><b>Mathboard</b></h3>
+              <nav>
+                <ul class="nav masthead-nav">
+                  <li class="active"><a href="index.html">Home</a></li>
+                  <li><a href="features.html">Features</a></li>
+                  <li><a href="help.html">Help</a></li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+
+          <div class="inner cover">
+            <h1 class="cover-heading fourofour">Enter.</h1>
+            <div class="form-group">
+              <input type="text" class="form-control" id="usr" text="" placeholder="Room Code:">
+            </div>
+            <p class="lead">
+             <!-- <a onclick="join()" class="btn btn-lg btn-default" id="join">Join</a> -->
+              <button class="btn btn-lg btn-default" id="join">Join</button>
+              <a onclick="create()" class="btn btn-lg btn-default" id="create">New Room</a>
+            </p>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+	
+	<script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script type="text/javascript">
+		$("#join").click(function(event) {
+			
+			$.get(
+				"/loadcanvas.py",
+				function(response) {
+				  console.log(response);
+				})
+				.error(function(xhr, status, error) {
+				  console.log(xhr);
+				});
+		});
+		
+		function create(){
+			window.location.href = '/fabrictest.htm';
+		};
+    </script>
+  </body>
+</html>

@@ -1,0 +1,61 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Mathboard - 404</title>
+
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="styles/cover.css" rel="stylesheet">
+  </head>
+
+  <body>
+
+    <div class="site-wrapper backgroundcover">
+      <div class="site-wrapper-inner">
+        <div class="cover-container">
+          <div class="masthead clearfix">
+            <div class="inner">
+              <h3 class="masthead-brand"><b>Mathboard</b></h3>
+              <nav>
+                <ul class="nav masthead-nav">
+                  <li><a href="index.html">Home</a></li>
+                  <li><a href="features.html">Features</a></li>
+                  <li><a href="help.html">Help</a></li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+
+          <div class="inner cover">
+            <h1 class="cover-heading fourofour">404</h1>
+            <div class="form-group fourofour">
+              Oops! We can't seem to find the page you're looking for.            </div>
+            <p class="lead">
+              <a onclick="goBack()" class="btn btn-lg btn-default" id="back">Go Back</a>
+            </p>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      function join(){
+        var room = "fabricreceiver.html#".concat($("#usr").val());
+        window.location.href = room;
+      }
+      function create(){
+        window.location.href = '/fabrictest.htm';
+      }
+      function goBack() {
+        window.history.back();
+      }
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+  </body>
+</html>

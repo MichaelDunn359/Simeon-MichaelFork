@@ -1,0 +1,11 @@
+runtime: python27
+api_version: 1
+threadsafe: true
+
+handlers:
+- url: /
+  script: home.app
+- url: /
+  script: loadcanvas.app
+- url: /styles
+  static_dir: styles
